@@ -1,0 +1,9 @@
+﻿@model EditProjectUsersViewModel
+
+@{
+    ViewBag.Title = "EditProjectUsers";
+}
+
+
+@Html.Action("CurrentProjectUsers", "ManageProjectUsers", new { projectID = Model.ID })
+@Html.Action("AddProjectUsers", "ManageProjectUsers", new { projectID = Model.ID })

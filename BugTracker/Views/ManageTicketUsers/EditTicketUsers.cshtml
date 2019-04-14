@@ -1,0 +1,10 @@
+﻿@model EditTicketUsersViewModel
+
+@{
+    ViewBag.Title = "EditTicketUsers";
+}
+
+<h2>EditTicketUsers</h2>
+
+@Html.Action("CurrentTicketUsers", "ManageTicketUsers", new { id = Model.ID })
+@Html.Action("AddTicketUsers", "ManageTicketUsers", new { id = Model.ID })

@@ -1,0 +1,107 @@
+﻿@model IEnumerable<BugTracker.Models.ViewModels.ShowTicketViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Tickets</h2>
+
+<p>
+    <a id='registerLink' href='@Url.Action("Create", "Ticket")'>
+        <button class="btn btn-primary">Create New Ticket</button>
+    </a>
+</p>
+<table class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Created
+            </th>
+            <th>
+                Updated
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Priority
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Assigned User
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <h5 class="post-title"><a href="@Url.Action("FullTicketBySlug", "Ticket", new { slug = item.Slug })">@item.Title</a></h5>
+                </td>
+                <td>
+                    @if (item.Description.Count() > 50)
+                    {
+                        <p>@Html.Raw(item.Description.Substring(0, 24))...</p>
+                    }
+                    else
+                    {
+                        <p>@Html.Raw(item.Description)</p>
+                    }
+                </td>
+                <td>
+                    <p>@Html.DisplayFor(modelItem => item.DateCreated)</p>
+                </td>
+                <td>
+                    @if (item.DateUpdated != "")
+                    {
+                        <p>@Html.DisplayFor(modelItem => item.DateUpdated)</p>
+                    }
+                    else
+                    {
+                        <p>-</p>
+                    }
+                </td>
+                <td>
+                    @item.Status
+                </td>
+                <td>
+                    @item.Type
+                </td>
+                <td>
+                    @item.Priority
+                </td>
+                <td>
+                    <p class="project-users-number">@Html.DisplayFor(modelItem => item.AssignedToUser)</p>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                    {
+                        <form method="get" action="@Url.Action("EditTicketUsers", "ManageTicketUsers", new { id = item.ID })" id="edit-button" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns" type="submit">Change</button>
+                        </form>
+                    }
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                    {
+                        <form method="get" action="@Url.Action("Edit", "Ticket", new { id = item.ID })" id="edit-button" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns" type="submit">Edit</button>
+                        </form>
+                        <form method="post" action="@Url.Action("Delete", "Ticket", new { id = item.ID })" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary red" type="submit">X</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

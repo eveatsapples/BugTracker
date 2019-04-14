@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+@model BugTracker.Models.ViewModels.EditProjectViewModel
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            tinymce.init({
+                selector: '.editor'
+            });
+        });
+    </script>
+}
+
+
+<form method="post" enctype="multipart/form-data">
+    @Html.ValidationSummary(false)
+    <div class="form-group">
+        @Html.LabelFor(p => p.ProjectName, "Project Name:")
+        @Html.TextBoxFor(p => p.ProjectName, new { @class = "form-control", placeholder = "Headline" })
+    </div>
+ 
+    <div class="form-group">
+        @Html.LabelFor(p => p.Description, "Description:")
+        @Html.TextAreaFor(p => p.Description, new { @class = "form-control editor", placeholder = "Body", rows = 5, columns = 5 })
+    </div>
+
+    <div class="">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>

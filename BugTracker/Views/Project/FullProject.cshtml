@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "FullProject";
+}
+
+<h2>FullProject</h2>
+
+@model FullProjectViewModel
+
+
+<h3>@Model.ProjectName</h3>
+
+<div class="main-post">
+    <p>@Html.Raw(Model.Description)</p>
+</div>
+
+@Html.Action("Show", "Ticket", new { id = Model.ID })
+
+@Html.Action("Create", "Ticket", new { id = Model.ID })

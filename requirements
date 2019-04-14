@@ -1,0 +1,73 @@
+Project Deliverables
+Deliverables #1
+Project:
+Bug Tracker
+Requirements:
+$Determine the DB Schema – Model the classes in C# and create the database.
+$Login / Register – New users must be able to register and existing users 
+  must be able to successfully log in. News users should be placed on the 
+  Submitter role automatically upon registration.
+$Authenticated users must be able to change their name and password.
+$Authenticated users must be able to recover a lost password.
+$Roles
+  $The database should be seeded with Admin, Project Manager, Developer,and
+    Submitter roles.
+  $The database should be seeded with an Admin User with the following credentials:
+    Username: admin@mybugtracker.com
+    Password: Password-1
+  $There should be a screen where Administrators only must be able to assign 
+    and unassign users to and from roles.
+$Projects
+  $Create Projects – Administrators and Project Managers must be able to create new 
+                      projects.
+  $Edit Projects – Administrators and Project Managers must be able to edit existing 
+                      projects.
+  $Administrators and Project Managers must be able to assign and unassigned users to 
+                      and from projects.
+  $List Projects – Administrators, Project Managers, Developers, and Submitters must 
+                      be able to view a list of projects they are assigned to. 
+                      Administrators and Project Managers must be able to view a 
+                      separate list of all projects. This list should display the 
+                      name of the project, how many users are assigned, how many 
+                      tickets the project have, when it was created and when it was 
+                      last updated. 
+$All screens should display the data in a tabular format and should allow the user to 
+  search, paginate and sort data. jQuery DataTables or any other plugin of your choice 
+  can beused to implement this functionality.
+
+Sample Site:
+http://zbugtracker.azurewebsites.net
+
+Due DateMonday, April 8th, 2019 at 8:45
+
+□ Make sure the security is always added to the Controller. All actions that require authentication should be validated. 
+□ Tickets 
+□   Model the classes to represent Tickets including Statuses, Priorities and Types.
+□   The following Types should be seeded to the database: Bug, Feature, Database and Support.
+□   The following Priorities should be seeded to the database: Low, Medium and High.
+□   The following Statuses should be seeded to the database: Open, Resolved and Rejected.
+□ Submitters only must be able to create tickets. The system should allow Submitters to create tickets only to the projects to which they are assigned. When creating tickets make sure the user provides the Title, Description, Project, Type and Priority.
+□ New tickets are owned by the user who enters them, are initially unassigned and should have the status set to Open.
+□ Administrators and Project Managers must be able to view a list of all tickets belonging to all projects.
+□ Developers must be able to view a list of all tickets belonging to the projects to which they are assigned and also tickets they are assigned.
+□ Submitters must be able to view a list of all tickets belonging to the projects to which they are assigned and also their own tickets.
+□ The list of tickets must be sortable by column heading, searchable by text fields and paged.
+□ The list of tickets should include the following information: Project, Title, Date Created, Date Updated, Type, Status, Priority, Creator, Assigned Developer.
+□ Admin and Project Managers must be able to edit any ticket. When editing tickets make sure the user provides the Title, Description, Project, Type, Priority and Status.
+□ Admin and Project Managers must be able to assign tickets to Developers only.
+□ Developers must be able to edit tickets to which they are assigned. When editing tickets make sure the user provides the Title, Description, Project, Type and Priority.
+□ Submitters must be able to edit tickets they own. When editing tickets make sure the user provides the Title, Description, Project, Type and Priority.
+□ Tickets should have a detail page to display the full details of the ticket, including Comments and Attachments.
+
+□ Ticket Comments
+□ Administrators and Project Managers must be able to add Comments to any ticket.
+□ Developers must be able to add Comments to tickets to which they are assigned.
+□ Submitters must be able to add Comments to tickets they own.
+ 
+□   Ticket Attachments 
+□ Administrators and Project Managers must be able to add Attachments to any ticket.
+□ Developers must be able to add Attachments to tickets to which they are assigned.
+□ Submitters must be able to add Attachments to tickets they own.
+□ Projects
+□ Once you design tickets remember to go back to the project screen and fix the ticket count on the grid.
+

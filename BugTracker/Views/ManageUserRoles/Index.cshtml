@@ -1,0 +1,117 @@
+﻿@model List<ManageUserRolesViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Username
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Admin
+            </th>
+            <th>
+                Project Manager
+            </th>
+            <th>
+                Developer
+            </th>
+            <th>
+                Submitter
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @item.FirstName
+                </td>
+                <td>
+                    @item.LastName
+                </td>
+                <td>
+                    <p style="display:none;">@item.Roles.Contains("Admin")</p>
+                    @if (item.Roles.Contains("Admin"))
+                    {
+                        <p style="display:none;">Admin</p>
+                        <form method="post" action="@Url.Action("RemoveRoleAdmin", "ManageUserRoles", new { id = item.UserID })" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns check-box-button" type="submit"><img src="~/Images/checked.png" class="checkbox" /></button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" action="@Url.Action("AddRoleAdmin", "ManageUserRoles", new { id = item.UserID })" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns check-box-button" type="submit"><img src="~/Images/unChecked.png" class="checkbox" /></button>
+                        </form>
+                    }
+                </td>
+                <td>
+                    <p style="display:none;">@item.Roles.Contains("Project Manager")</p>
+                    @if (item.Roles.Contains("Project Manager"))
+                    {
+                        <p style="display:none;">Project Manager</p>
+                        <form method="post" action="@Url.Action("RemoveRoleProjectManager", "ManageUserRoles", new { id = item.UserID })" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns check-box-button" type="submit"><img src="~/Images/Checked.png" class="checkbox" /></button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" action="@Url.Action("AddRoleProjectManager", "ManageUserRoles", new { id = item.UserID })" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns check-box-button" type="submit"><img src="~/Images/unChecked.png" class="checkbox" /></button>
+                        </form>
+                    }
+                </td>
+                <td>
+                    <p style="display:none;">@item.Roles.Contains("Developer")</p>
+                    @if (item.Roles.Contains("Developer"))
+                    {
+                        <p style="display:none;">Developer</p>
+                        <form method="post" action="@Url.Action("RemoveRoleDeveloper", "ManageUserRoles", new { id = item.UserID })" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns check-box-button" type="submit"><img src="~/Images/Checked.png" class="checkbox" /></button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" action="@Url.Action("AddRoleDeveloper", "ManageUserRoles", new { id = item.UserID })" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns check-box-button" type="submit"><img src="~/Images/unChecked.png" class="checkbox" /></button>
+                        </form>
+                    }
+                </td>
+                <td>
+                    <p style="display:none;">@item.Roles.Contains("Submitter")</p>
+                    @if (item.Roles.Contains("Submitter"))
+                    {
+                        <p style="display:none;">Submitter</p>
+                        <form method="post" action="@Url.Action("RemoveRoleSubmitter", "ManageUserRoles", new { id = item.UserID })" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns check-box-button" type="submit"><img src="~/Images/checked.png" class="checkbox" /></button>
+                            <p style="display:none;">Submitter</p>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" action="@Url.Action("AddRoleSubmitter", "ManageUserRoles", new { id = item.UserID })" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns check-box-button" type="submit"><img src="~/Images/unChecked.png" class="checkbox" /></button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
