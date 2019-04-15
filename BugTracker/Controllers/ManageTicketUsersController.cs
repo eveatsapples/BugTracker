@@ -33,6 +33,7 @@ namespace BugTracker.Controllers
             var model = new EditTicketUsersViewModel
             {
                 ID = ticket.ID,
+                Title = ticket.Title
             };
 
             DbContext.SaveChanges();
@@ -43,34 +44,55 @@ namespace BugTracker.Controllers
         [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult CurrentTicketUsers(int id)
         {
-            var model = DbContext.Tickets
-              .Where(p => p.ID == id)
-              .Select(p => new TicketUserViewModel
-              {
-                  ID = id
-              }).ToList();
+            var ticket = DbContext.Tickets
+                .FirstOrDefault(t => t.ID == id);
 
-            DbContext.SaveChanges();
-            return PartialView(model);
+            var assignedUser = DbContext.Users
+                .FirstOrDefault(p => p.Id == ticket.AssignedToUserID);
+
+            var model = new TicketUserViewModel();
+
+            if (assignedUser != null)
+            {
+                model = new TicketUserViewModel
+                {
+                    ID = id,
+                    UserID = assignedUser.Id,
+                    UserName = assignedUser.UserName,
+                    FirstName = assignedUser.FirstName,
+                    LastName = assignedUser.LastName
+                };
+
+                DbContext.SaveChanges();
+                return PartialView(model);
+            }
+            else
+            {
+                return PartialView(model);
+            }
+
         }
 
         [HttpGet]
         [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult AddTicketUsers(int id)
         {
-            var model = DbContext.Users
-              .Where(p => p.Projects.All(i => i.ID != id))
-              .Select(p => new TicketUserViewModel
-              {
-                  ID = id,
-                  UserID = p.Id,
-                  UserName = p.UserName,
-                  FirstName = p.FirstName,
-                  LastName = p.LastName
-              }).ToList();
+            var ticket = DbContext.Tickets
+                .FirstOrDefault(t => t.ID == id);
+
+            var unassignedUsers = DbContext.Users
+                .Where(p => p.Id != ticket.AssignedToUserID)
+                .Select(p => new TicketUserViewModel
+                {
+                    ID = id,
+                    UserID = p.Id,
+                    UserName = p.UserName,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName
+                }).ToList();
 
             DbContext.SaveChanges();
-            return PartialView(model);
+            return PartialView(unassignedUsers);
         }
 
         [HttpPost]
@@ -88,7 +110,7 @@ namespace BugTracker.Controllers
                 return RedirectToAction(nameof(ManageProjectUsersController.EditProjectUsers));
             }
 
-            //user.tickets.Add(ticket);
+            ticket.AssignedToUserID = user.Id;
 
             DbContext.SaveChanges();
             return RedirectToAction("EditTicketUsers", "ManageTicketUsers", new { id = ticketUser.ID });
@@ -101,7 +123,7 @@ namespace BugTracker.Controllers
             var user = DbContext.Users.FirstOrDefault(
                 p => p.Id == ticketUser.UserID);
 
-            var project = DbContext.Projects.FirstOrDefault(
+            var ticket = DbContext.Tickets.FirstOrDefault(
                 p => p.ID == ticketUser.ID);
 
             if (user == null)
@@ -109,7 +131,7 @@ namespace BugTracker.Controllers
                 return RedirectToAction(nameof(ManageProjectUsersController.EditProjectUsers));
             }
 
-            user.Projects.Remove(project);
+            ticket.AssignedToUserID = null;
 
             DbContext.SaveChanges();
             return RedirectToAction("EditTicketUsers", "ManageTicketUsers", new { id = ticketUser.ID });

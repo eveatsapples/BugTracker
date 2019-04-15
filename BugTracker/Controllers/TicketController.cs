@@ -34,11 +34,13 @@ namespace BugTracker.Controllers
               {
                   Slug = p.Slug,
                   ID = p.ID,
+                  ProjectID = p.ProjectID,
                   Title = p.Title,
                   Description = p.Description,
                   DateCreated = p.DateCreated.ToString(),
                   DateUpdated = p.DateUpdated.ToString(),
-
+                  OwnerUser = DbContext.Users.FirstOrDefault(u => u.Id == p.OwnerUserID).UserName,
+                  AssignedToUser = DbContext.Users.FirstOrDefault(u => u.Id == p.AssignedToUserID).UserName
               }).ToList();
 
             return PartialView(model);
@@ -56,7 +58,7 @@ namespace BugTracker.Controllers
             int projectID = id.GetValueOrDefault();
             var userId = User.Identity.GetUserId();
 
-            Ticket ticket = new Ticket();
+            var ticket = new EditTicketViewModel();
             ticket.ProjectID = projectID;
             return PartialView(ticket);
         }
@@ -80,8 +82,11 @@ namespace BugTracker.Controllers
 
             var userId = User.Identity.GetUserId();
 
-            var ticket = DbContext.Tickets.FirstOrDefault(
-                p => p.ID == id && p.ID == id);
+            var ticket = DbContext.Tickets
+                .FirstOrDefault(p => p.ID == id);
+
+            var project = DbContext.Projects
+                .FirstOrDefault(p => p.ID == ticket.ProjectID);
 
             if (ticket == null)
             {
@@ -91,16 +96,19 @@ namespace BugTracker.Controllers
             var model = new EditTicketViewModel
             {
                 Title = ticket.Title,
-                Description = ticket.Description
+                Description = ticket.Description,
+                ID = ticket.ID,
+                ProjectID = ticket.ProjectID
             };
 
             DbContext.SaveChanges();
             return View(model);
+            //return RedirectToAction("FullProjectBySlug", "Project", new { slug = project.Slug });
         }
 
         [HttpPost]
         [Authorize(Roles = "Submitter")]
-        public ActionResult Edit(int id, EditTicketViewModel formData)
+        public ActionResult Edit(int id, int projectId, EditTicketViewModel formData)
         {
             return Save(id, formData);
         }
@@ -108,16 +116,16 @@ namespace BugTracker.Controllers
         [Authorize(Roles = "Submitter")]
         private ActionResult Save(int? id, EditTicketViewModel formData)
         {
+            var project = DbContext.Projects
+                .FirstOrDefault(p => p.ID == formData.ProjectID);
+
             if (!ModelState.IsValid)
             {
-                return View();
+                //return View(formData.ProjectID);
+                return RedirectToAction("FullProjectBySlug", "Project", new { slug = project.Slug });
             }
 
             var userId = User.Identity.GetUserId();
-
-            var project = DbContext.Projects
-                .Where(p => p.ID == formData.ProjectID)
-                .FirstOrDefault();
 
             Ticket ticket;
 
@@ -125,7 +133,10 @@ namespace BugTracker.Controllers
             {
                 ticket = new Ticket
                 {
-                    DateCreated = DateTime.Now
+                    DateCreated = DateTime.Now,
+                    OwnerUserID = userId,
+                    Slug = ProjectController.Slugify(formData.Title),
+                    ProjectID = formData.ProjectID
                 };
                 DbContext.Tickets.Add(ticket);
             }
@@ -139,11 +150,9 @@ namespace BugTracker.Controllers
                     return RedirectToAction(nameof(ProjectController.Index));
                 }
 
-                ticket.Slug = ProjectController.Slugify(formData.Title);
                 ticket.DateUpdated = DateTime.Now;
             }
 
-            ticket.ProjectID = formData.ProjectID;
             ticket.Title = formData.Title;
             ticket.Description = formData.Description;
 
@@ -191,6 +200,7 @@ namespace BugTracker.Controllers
             }
 
             var ticket = DbContext.Tickets.FirstOrDefault(p => p.ID == id);
+            var project = DbContext.Projects.FirstOrDefault(p => p.ID == ticket.ProjectID);
 
             if (ticket != null)
             {
@@ -198,7 +208,8 @@ namespace BugTracker.Controllers
                 DbContext.SaveChanges();
             }
 
-            return RedirectToAction(nameof(ProjectController.Index));
+            //return RedirectToAction(nameof(ProjectController.Index));
+            return RedirectToAction("FullProjectBySlug", "Project", new { slug = project.Slug });
         }
 
     }

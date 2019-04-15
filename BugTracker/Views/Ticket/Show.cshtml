@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BugTracker.Models.ViewModels.ShowTicketViewModel>
+﻿@model List<ShowTicketViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -6,11 +6,11 @@
 
 <h2>All Tickets</h2>
 
-<p>
+@*<p>
     <a id='registerLink' href='@Url.Action("Create", "Ticket")'>
         <button class="btn btn-primary">Create New Ticket</button>
     </a>
-</p>
+</p>*@
 <table class="display" style="width:100%">
     <thead>
         <tr>
@@ -37,6 +37,9 @@
             </th>
             <th>
                 Assigned User
+            </th>
+            <th>
+                Owner
             </th>
             <th></th>
         </tr>
@@ -88,6 +91,9 @@
                             <button class="btn btn-primary admin-btns" type="submit">Change</button>
                         </form>
                     }
+                </td>
+                <td>
+                    @item.OwnerUser
                 </td>
                 <td>
                     @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))

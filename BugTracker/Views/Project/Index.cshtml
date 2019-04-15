@@ -73,7 +73,7 @@
                     @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
                     {
                         <form method="get" action="@Url.Action("EditProjectUsers", "ManageProjectUsers", new { id = item.ID })" id="edit-button" class="edit-delete-btns-forms">
-                            <button class="btn btn-primary admin-btns" type="submit">Edit</button>
+                            <button class="btn btn-primary admin-btns" type="submit">Manage</button>
                         </form>
                     }
                 </td>

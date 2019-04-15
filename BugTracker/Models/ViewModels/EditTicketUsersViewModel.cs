@@ -8,5 +8,6 @@ namespace BugTracker.Models.ViewModels
     public class EditTicketUsersViewModel
     {
         public int ID { get; set; }
+        public string Title { get; set; }
     }
 }

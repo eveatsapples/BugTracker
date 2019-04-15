@@ -19,7 +19,7 @@
     </script>
 }
 
-@using (Html.BeginForm("Edit", "Ticket", new { id = Model.ProjectID },
+@using (Html.BeginForm("Edit", "Ticket", new { id = Model.ID, projectId = Model.ProjectID },
                    FormMethod.Post))
 {
     @Html.AntiForgeryToken()
