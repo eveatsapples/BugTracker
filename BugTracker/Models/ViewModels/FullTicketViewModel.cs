@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 
 namespace BugTracker.Models.ViewModels
 {
-    public class EditTicketViewModel
+    public class FullTicketViewModel
     {
         public int ID { get; set; }
         public int ProjectID { get; set; }
-        [Required]
+        public string UserID { get; set; }
         public string Title { get; set; }
-        [Required]
-        [AllowHtml]
+        public string Slug { get; set; }
         public string Description { get; set; }
-        [Required]
+        public string DateCreated { get; set; }
+        public string DateUpdated { get; set; }
         public string Type { get; set; }
-        [Required]
         public string Priority { get; set; }
         public string Status { get; set; }
+        public string OwnerUser { get; set; }
+        public string OwnerUserID { get; set; }
+        public string AssignedToUser { get; set; }
+        public string AssignedToUserID { get; set; }
     }
 }

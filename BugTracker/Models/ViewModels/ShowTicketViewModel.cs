@@ -8,7 +8,9 @@ namespace BugTracker.Models.ViewModels
     public class ShowTicketViewModel
     {
         public int ID { get; set; }
+        public string CurrentUserID { get; set; }
         public int ProjectID { get; set; }
+        public string Project { get; set; }
         public string Title { get; set; }
         public string Slug { get; set; }
         public string Description { get; set; }
@@ -18,6 +20,8 @@ namespace BugTracker.Models.ViewModels
         public string Priority { get; set; }
         public string Status { get; set; }
         public string OwnerUser { get; set; }
+        public string OwnerUserID { get; set; }
         public string AssignedToUser { get; set; }
+        public string AssignedToUserID { get; set; }
     }
 }

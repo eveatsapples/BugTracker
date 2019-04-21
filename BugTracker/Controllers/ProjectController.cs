@@ -22,7 +22,7 @@ namespace BugTracker.Controllers
         }
 
         //[Route]
-        //[Authorize(Roles = "Admin, Project Manager")]
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Index()
         {
             var model = DbContext.Projects
@@ -107,7 +107,7 @@ namespace BugTracker.Controllers
                   (!id.HasValue || p.ID != id.Value)))
             {
                 ModelState.AddModelError(nameof(EditProjectViewModel.ProjectName),
-                    "Article title should be unique");
+                    "Project name should be unique");
 
                 return View();
             }

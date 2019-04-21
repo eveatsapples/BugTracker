@@ -1,0 +1,25 @@
+﻿@model AddFileViewModel
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+
+<form method="post" enctype="multipart/form-data">
+    @Html.ValidationSummary(false)
+    @Html.HiddenFor(model => model.TicketID)
+    <div class="form-group">
+        @Html.LabelFor(p => p.Description, "Description:")
+        @Html.TextAreaFor(p => p.Description, new { @id = "editor", @class = "form-control", placeholder = "Description", rows = 5, columns = 5 })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(p => p.File, "File:")
+        <input type="file" name="File" />
+    </div>
+
+    <div class="">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+

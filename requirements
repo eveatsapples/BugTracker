@@ -41,33 +41,34 @@ http://zbugtracker.azurewebsites.net
 Due DateMonday, April 8th, 2019 at 8:45
 
 □ Make sure the security is always added to the Controller. All actions that require authentication should be validated. 
-□ Tickets 
-□   Model the classes to represent Tickets including Statuses, Priorities and Types.
-□   The following Types should be seeded to the database: Bug, Feature, Database and Support.
-□   The following Priorities should be seeded to the database: Low, Medium and High.
-□   The following Statuses should be seeded to the database: Open, Resolved and Rejected.
-□ Submitters only must be able to create tickets. The system should allow Submitters to create tickets only to the projects to which they are assigned. When creating tickets make sure the user provides the Title, Description, Project, Type and Priority.
-□ New tickets are owned by the user who enters them, are initially unassigned and should have the status set to Open.
-□ Administrators and Project Managers must be able to view a list of all tickets belonging to all projects.
-□ Developers must be able to view a list of all tickets belonging to the projects to which they are assigned and also tickets they are assigned.
-□ Submitters must be able to view a list of all tickets belonging to the projects to which they are assigned and also their own tickets.
-□ The list of tickets must be sortable by column heading, searchable by text fields and paged.
-□ The list of tickets should include the following information: Project, Title, Date Created, Date Updated, Type, Status, Priority, Creator, Assigned Developer.
-□ Admin and Project Managers must be able to edit any ticket. When editing tickets make sure the user provides the Title, Description, Project, Type, Priority and Status.
-□ Admin and Project Managers must be able to assign tickets to Developers only.
-□ Developers must be able to edit tickets to which they are assigned. When editing tickets make sure the user provides the Title, Description, Project, Type and Priority.
-□ Submitters must be able to edit tickets they own. When editing tickets make sure the user provides the Title, Description, Project, Type and Priority.
-□ Tickets should have a detail page to display the full details of the ticket, including Comments and Attachments.
+$ Tickets 
+$   Model the classes to represent Tickets including Statuses, Priorities and Types.
+$   The following Types should be seeded to the database: Bug, Feature, Database and Support.
+$   The following Priorities should be seeded to the database: Low, Medium and High.
+$   The following Statuses should be seeded to the database: Open, Resolved and Rejected.
+$ Submitters only must be able to create tickets. The system should allow Submitters to create tickets only to the projects to which they are assigned. When creating tickets make sure the user provides the Title, Description, Project, Type and Priority.
+$ New tickets are owned by the user who enters them, are initially unassigned and should have the status set to Open.
+$ Administrators and Project Managers must be able to view a list of all tickets belonging to all projects.
+$ Developers must be able to view a list of all tickets belonging to the projects to which they are assigned and also tickets they are assigned.
+$ Submitters must be able to view a list of all tickets belonging to the projects to which they are assigned and also their own tickets.
+$ The list of tickets must be sortable by column heading, searchable by text fields and paged.
+$ The list of tickets should include the following information: Project, Title, Date Created, Date Updated, Type, Status, Priority, Creator, Assigned Developer.
+$ Admin and Project Managers must be able to edit any ticket. When editing tickets make sure the user provides the Title, Description, Project, Type, Priority and Status.
+$ Admin and Project Managers must be able to assign tickets to Developers only.
+$ Developers must be able to edit tickets to which they are assigned. When editing tickets make sure the user provides the Title, Description, Project, Type and Priority.
+$ Submitters must be able to edit tickets they own. When editing tickets make sure the user provides the Title, Description, Project, Type and Priority.
+$ Tickets should have a detail page to display the full details of the ticket, including Comments and Attachments.
 
-□ Ticket Comments
-□ Administrators and Project Managers must be able to add Comments to any ticket.
-□ Developers must be able to add Comments to tickets to which they are assigned.
-□ Submitters must be able to add Comments to tickets they own.
+$ Ticket Comments
+$ Administrators and Project Managers must be able to add Comments to any ticket.
+$ Developers must be able to add Comments to tickets to which they are assigned.
+$ Submitters must be able to add Comments to tickets they own.
  
-□   Ticket Attachments 
-□ Administrators and Project Managers must be able to add Attachments to any ticket.
-□ Developers must be able to add Attachments to tickets to which they are assigned.
-□ Submitters must be able to add Attachments to tickets they own.
-□ Projects
-□ Once you design tickets remember to go back to the project screen and fix the ticket count on the grid.
+$   Ticket Attachments 
+$ Administrators and Project Managers must be able to add Attachments to any ticket.
+$ Developers must be able to add Attachments to tickets to which they are assigned.
+$ Submitters must be able to add Attachments to tickets they own.
+$ Projects
+$ Once you design tickets remember to go back to the project screen and fix the ticket count on the grid.
 
+admin should also be a submitter on seed

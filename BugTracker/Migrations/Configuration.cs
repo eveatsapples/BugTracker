@@ -1,6 +1,7 @@
 namespace BugTracker.Migrations
 {
     using BugTracker.Models;
+    using BugTracker.Models.Domain;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
@@ -78,6 +79,100 @@ namespace BugTracker.Migrations
             {
                 var submitterRole = new IdentityRole("Submitter");
                 roleManager.Create(submitterRole);
+            }
+
+
+            // Ticket Types
+            if (!context.TicketTypes.Any(p => p.Name == "Bug"))
+            {
+                var bug = new TicketType
+                {
+                    Name = "Bug"
+                };
+                context.TicketTypes.Add(bug);
+            }
+
+            if (!context.TicketTypes.Any(p => p.Name == "Feature"))
+            {
+                var feature = new TicketType
+                {
+                    Name = "Feature"
+                };
+                context.TicketTypes.Add(feature);
+            }
+
+            if (!context.TicketTypes.Any(p => p.Name == "Database"))
+            {
+                var database = new TicketType
+                {
+                    Name = "Database"
+                };
+                context.TicketTypes.Add(database);
+            }
+
+            if (!context.TicketTypes.Any(p => p.Name == "Support"))
+            {
+                var support = new TicketType
+                {
+                    Name = "Support"
+                };
+                context.TicketTypes.Add(support);
+            }
+
+            // Ticket Priorities
+            if (!context.TicketPriorities.Any(p => p.Name == "Low"))
+            {
+                var low = new TicketPriority
+                {
+                    Name = "Low"
+                };
+                context.TicketPriorities.Add(low);
+            }
+
+            if (!context.TicketPriorities.Any(p => p.Name == "Medium"))
+            {
+                var medium = new TicketPriority
+                {
+                    Name = "Medium"
+                };
+                context.TicketPriorities.Add(medium);
+            }
+
+            if (!context.TicketPriorities.Any(p => p.Name == "High"))
+            {
+                var high = new TicketPriority
+                {
+                    Name = "High"
+                };
+                context.TicketPriorities.Add(high);
+            }
+
+            // Ticket Statuses
+            if (!context.TicketStatuses.Any(p => p.Name == "Open"))
+            {
+                var open = new TicketStatus
+                {
+                    Name = "Open"
+                };
+                context.TicketStatuses.Add(open);
+            }
+
+            if (!context.TicketStatuses.Any(p => p.Name == "Resolved"))
+            {
+                var resolved = new TicketStatus
+                {
+                    Name = "Resolved"
+                };
+                context.TicketStatuses.Add(resolved);
+            }
+
+            if (!context.TicketStatuses.Any(p => p.Name == "Rejected"))
+            {
+                var rejected = new TicketStatus
+                {
+                    Name = "Rejected"
+                };
+                context.TicketStatuses.Add(rejected);
             }
         }
     }

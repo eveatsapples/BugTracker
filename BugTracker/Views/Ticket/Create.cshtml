@@ -42,17 +42,17 @@
 
         <h5>Type:</h5>
         <p>
-            @Html.RadioButtonFor(model => model.TypeID, "Bug")Bug
-            @Html.RadioButtonFor(model => model.TypeID, "Feature")Feature
-            @Html.RadioButtonFor(model => model.TypeID, "Database")Database
-            @Html.RadioButtonFor(model => model.TypeID, "Support")Support
+            @Html.RadioButtonFor(model => model.Type, "Bug")Bug
+            @Html.RadioButtonFor(model => model.Type, "Feature")Feature
+            @Html.RadioButtonFor(model => model.Type, "Database")Database
+            @Html.RadioButtonFor(model => model.Type, "Support")Support
         </p>
 
         <h5>Priority:</h5>
         <p>
-            @Html.RadioButtonFor(model => model.PriorityID, "Low")Low
-            @Html.RadioButtonFor(model => model.PriorityID, "Medium")Medium
-            @Html.RadioButtonFor(model => model.PriorityID, "High")High
+            @Html.RadioButtonFor(model => model.Priority, "Low")Low
+            @Html.RadioButtonFor(model => model.Priority, "Medium")Medium
+            @Html.RadioButtonFor(model => model.Priority, "High")High
         </p>
 
         <div class="form-group">

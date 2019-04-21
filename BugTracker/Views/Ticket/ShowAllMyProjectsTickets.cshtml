@@ -1,19 +1,17 @@
 ﻿@model List<ShowTicketViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "ShowAllMyProjectsTickets";
 }
 
-<h2>All Tickets</h2>
+<h2>ShowAllMyProjectsTickets</h2>
 
-@*<p>
-    <a id='registerLink' href='@Url.Action("Create", "Ticket")'>
-        <button class="btn btn-primary">Create New Ticket</button>
-    </a>
-</p>*@
 <table class="display" style="width:100%">
     <thead>
         <tr>
+            <th>
+                Project
+            </th>
             <th>
                 Title
             </th>
@@ -48,6 +46,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @item.Project
+                </td>
                 <td>
                     <h5 class="post-title"><a href="@Url.Action("FullTicketBySlug", "Ticket", new { slug = item.Slug })">@item.Title</a></h5>
                 </td>
@@ -124,9 +125,11 @@
                         </form>
                     }
 
+
                 </td>
             </tr>
         }
     </tbody>
 
 </table>
+

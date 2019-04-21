@@ -80,7 +80,9 @@ namespace BugTracker.Controllers
             var ticket = DbContext.Tickets
                 .FirstOrDefault(t => t.ID == id);
 
-            var unassignedUsers = DbContext.Users
+            var developerRole = DbContext.Roles.FirstOrDefault(r => r.Name == "Developer").Id;
+
+            var unassignedDeveloperUsers = DbContext.Users.Where(u => u.Roles.Any(p => p.RoleId == developerRole))
                 .Where(p => p.Id != ticket.AssignedToUserID)
                 .Select(p => new TicketUserViewModel
                 {
@@ -92,14 +94,17 @@ namespace BugTracker.Controllers
                 }).ToList();
 
             DbContext.SaveChanges();
-            return PartialView(unassignedUsers);
+            return PartialView(unassignedDeveloperUsers);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult AddTicketUsers(TicketUserViewModel ticketUser)
         {
-            var user = DbContext.Users.FirstOrDefault(
+            var developerRole = DbContext.Roles.FirstOrDefault(r => r.Name == "Developer").Id;
+            var unassignedDeveloperUsers = DbContext.Users;
+            var user = DbContext.Users.Where(u => u.Roles.Any(p => p.RoleId == developerRole))
+                .FirstOrDefault(
                 p => p.Id == ticketUser.UserID);
 
             var ticket = DbContext.Tickets.FirstOrDefault(

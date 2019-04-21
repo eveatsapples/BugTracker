@@ -1,0 +1,12 @@
+﻿@model List<IndexAttachmentViewModel>
+
+<h2>Attachments:</h2>
+
+@foreach (var attachment in Model)
+{
+    <p>@attachment.User</p>
+    <p>@attachment.Created</p>
+    <p>@attachment.Description</p>
+    <p>@attachment.FilePath</p>
+}
+

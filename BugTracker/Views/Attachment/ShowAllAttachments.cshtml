@@ -1,0 +1,14 @@
+﻿@model List<IndexAttachmentViewModel>
+@{
+    ViewBag.Title = "ShowAllAttachments";
+}
+
+<h2>ShowAllAttachments</h2>
+
+@foreach(var attachment in Model)
+{
+    <p>@attachment.User</p>
+    <p>@attachment.Created</p>
+    <p>@attachment.Description</p>
+    <p>@attachment.FilePath</p>
+}

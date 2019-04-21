@@ -1,0 +1,12 @@
+﻿@model List<ShowCommentViewModel>
+
+<h2>Comments:</h2>
+
+@foreach(var comment in Model)
+{
+    <p>@comment.ID</p>
+    <p>@comment.TicketID</p>
+    <p>@comment.Comment</p>
+    <p>@comment.DateCreated</p>
+    <p>@comment.User</p>
+}
