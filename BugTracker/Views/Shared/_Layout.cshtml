@@ -10,15 +10,44 @@
     @Styles.Render("https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css")
     @Scripts.Render("https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
     <script type="text/javascript">
-    $(document).ready( function () {
-        $('.display').DataTable();
-        });
+        $(document).ready( function () {
+            $('.display').DataTable();
+            });
     </script>
+    @Styles.Render("~/Content/sidebarNavigation")
+    @Scripts.Render("~/bundles/sidebarNavigation")
 
 
 
 </head>
 <body>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        @Html.ActionLink("My Projects", "Index", "MyProjects")
+        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+        {
+            <span>@Html.ActionLink("All Projects", "Index", "Project")</span>
+            <span>@Html.ActionLink("All Tickets", "ShowAll", "Ticket")</span>
+        }
+        @if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
+        {
+            <span>@Html.ActionLink("All My Projects Tickets", "ShowAllMyProjectsTickets", "Ticket")</span>
+        }
+        @if (User.IsInRole("Developer"))
+        {
+            <span>@Html.ActionLink("Tickets Assigned To Me", "ShowAssignedTickets", "Ticket")</span>
+        }
+        @if (User.IsInRole("Submitter") )
+        {
+            <span>@Html.ActionLink("Tickets I Made", "TicketsIMade", "Ticket")</span>
+        }
+        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+        {
+            <span>@Html.ActionLink("Manage User Roles", "Index", "ManageUserRoles")</span>
+        }
+    </div>
+
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -27,30 +56,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Bug Tracker", "Index", "MyProjects", new { area = "" }, new { @class = "navbar-brand" })
+                <a onclick="openNav()" class="navbar-brand pointer-cursor"> &#9776; Menu </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @*<li>@Html.ActionLink("My Projects", "Index", "MyProjects")</li>*@
                     @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
                     {
-                        <li>@Html.ActionLink("All Projects", "Index", "Project")</li>
-                        <li>@Html.ActionLink("All Tickets", "ShowAll", "Ticket")</li>
-                        <li>@Html.ActionLink("Manage User Roles", "Index", "ManageUserRoles")</li>
                     }
-                    <li>@Html.ActionLink("All My Projects Tickets", "ShowAllMyProjectsTickets", "Ticket")</li>
-                    <li>@Html.ActionLink("Tickets Assigned To Me", "ShowAssignedTickets", "Ticket")</li>
-                    <li>@Html.ActionLink("Tickets I Made", "TicketsIMade", "Ticket")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-        </footer>
+        <footer></footer>
     </div>
 
     @Scripts.Render("~/bundles/bootstrap")

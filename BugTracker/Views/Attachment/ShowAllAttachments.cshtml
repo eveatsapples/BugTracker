@@ -5,10 +5,21 @@
 
 <h2>ShowAllAttachments</h2>
 
-@foreach(var attachment in Model)
+@foreach (var attachment in Model)
 {
-    <p>@attachment.User</p>
-    <p>@attachment.Created</p>
-    <p>@attachment.Description</p>
-    <p>@attachment.FilePath</p>
+    <!-- comment -->
+    <div class="media">
+        <div class="media-body">
+            <div class="media-heading">
+                <h4>@attachment.User</h4>
+                <span class="time">
+                    @attachment.Created
+                </span>
+            </div>
+            <p>@Html.DisplayFor(modelItem => attachment.Description)</p>
+        </div>
+        <p>@Html.DisplayFor(modelItem => attachment.FilePath)</p>
+    </div>
+    <!-- /comment -->
+    <hr/>
 }

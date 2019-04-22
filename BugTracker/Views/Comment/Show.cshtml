@@ -2,11 +2,20 @@
 
 <h2>Comments:</h2>
 
-@foreach(var comment in Model)
+@foreach (var comment in Model)
 {
-    <p>@comment.ID</p>
-    <p>@comment.TicketID</p>
-    <p>@comment.Comment</p>
-    <p>@comment.DateCreated</p>
-    <p>@comment.User</p>
+    <!-- comment -->
+    <div class="media">
+        <div class="media-body">
+            <div class="media-heading">
+                <h4>@comment.User</h4>
+                <span class="time">
+                    @comment.DateCreated
+                </span>
+            </div>
+            <p>@Html.DisplayFor(modelItem => comment.Comment)</p>
+        </div>
+    </div>
+    <!-- /comment -->
+    <hr/>
 }

@@ -40,7 +40,7 @@ http://zbugtracker.azurewebsites.net
 
 Due DateMonday, April 8th, 2019 at 8:45
 
-□ Make sure the security is always added to the Controller. All actions that require authentication should be validated. 
+$ Make sure the security is always added to the Controller. All actions that require authentication should be validated. 
 $ Tickets 
 $   Model the classes to represent Tickets including Statuses, Priorities and Types.
 $   The following Types should be seeded to the database: Bug, Feature, Database and Support.

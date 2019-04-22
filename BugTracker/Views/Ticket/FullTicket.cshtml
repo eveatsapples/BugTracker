@@ -3,62 +3,84 @@
     ViewBag.Title = "FullTicket";
 }
 
-<h2>FullTicket</h2>
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Post content -->
+            <div class="col-md-8">
+                <div class="section-row sticky-container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="section-title">
+                                <h3>@Model.Title</h3>
+                                <span>Created: @Model.DateCreated</span>
+                                @if (Model.DateUpdated != null)
+                                {
+                                    <span>  |   Updated: @Model.DateUpdated</span>
+                                }
+                                <p><span>@Model.Type</span>
+                                <span>  |   @Model.Priority</span>
+                                <span>  |   @Model.Status</span></p>
+                                <p>Owner: @Model.OwnerUser</p>
+                                <span>Assigned To: @Model.AssignedToUser</span>
 
-<p>@Model.ID</p>
-<p>@Model.ProjectID</p>
-<p>@Model.Title</p>
-<p>@Model.Slug</p>
-<p>@Model.Description</p>
-<p>@Model.DateCreated</p>
-<p>@Model.DateUpdated</p>
-<p>@Model.Type</p>
-<p>@Model.Priority</p>
-<p>@Model.Status</p>
-<p>@Model.OwnerUser</p>
-<p>@Model.AssignedToUser</p>
-<hr />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-post">
+                        <p>@Html.Raw(Model.Description)</p>
+                    </div>
+                </div>
+                @Html.Action("Show", "Comment", new { id = Model.ID })
 
+                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                {
+                    @Html.Action("Create", "Comment", new { id = Model.ID })
+                }
+                else if (User.IsInRole("Developer") && Model.UserID == Model.AssignedToUserID)
+                {
+                    @Html.Action("Create", "Comment", new { id = Model.ID })
+                }
+                else if (User.IsInRole("Submitter") && Model.UserID == Model.OwnerUserID)
+                {
+                    @Html.Action("Create", "Comment", new { id = Model.ID })
+                }
 
-@Html.Action("Show", "Comment", new { id = Model.ID })
+                @Html.Action("ShowTicketAttachments", "Attachment", new { id = Model.ID })
 
-@if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-{
-    @Html.Action("Create", "Comment", new { id = Model.ID })
-}
-else if (User.IsInRole("Developer") && Model.UserID == Model.AssignedToUserID)
-{
-    @Html.Action("Create", "Comment", new { id = Model.ID })
-}
-else if (User.IsInRole("Submitter") && Model.UserID == Model.OwnerUserID)
-{
-    @Html.Action("Create", "Comment", new { id = Model.ID })
-}
-
-@Html.Action("ShowTicketAttachments", "Attachment", new { id = Model.ID })
-
-@if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-{
-    <p>
-        <a id='registerLink' href='@Url.Action("Add", "Attachment", new { id = Model.ID })'>
-            <button class="btn btn-primary">Add Attachment to Ticket</button>
-        </a>
-    </p>
-}
-else if (User.IsInRole("Developer") && Model.UserID == Model.AssignedToUserID)
-{
-    <p>
-        <a id='registerLink' href='@Url.Action("Add", "Attachment", new { id = Model.ID })'>
-            <button class="btn btn-primary">Add Attachment to Ticket</button>
-        </a>
-    </p>
-}
-else if (User.IsInRole("Submitter") && Model.UserID == Model.OwnerUserID)
-{
-    <p>
-        <a id='registerLink' href='@Url.Action("Add", "Attachment", new { id = Model.ID })'>
-            <button class="btn btn-primary">Add Attachment to Ticket</button>
-        </a>
-    </p>
-}
+                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                {
+                    <p>
+                        <a id='registerLink' href='@Url.Action("Add", "Attachment", new { id = Model.ID })'>
+                            <button class="btn btn-primary">Add Attachment to Ticket</button>
+                        </a>
+                    </p>
+                }
+                else if (User.IsInRole("Developer") && Model.UserID == Model.AssignedToUserID)
+                {
+                    <p>
+                        <a id='registerLink' href='@Url.Action("Add", "Attachment", new { id = Model.ID })'>
+                            <button class="btn btn-primary">Add Attachment to Ticket</button>
+                        </a>
+                    </p>
+                }
+                else if (User.IsInRole("Submitter") && Model.UserID == Model.OwnerUserID)
+                {
+                    <p>
+                        <a id='registerLink' href='@Url.Action("Add", "Attachment", new { id = Model.ID })'>
+                            <button class="btn btn-primary">Add Attachment to Ticket</button>
+                        </a>
+                    </p>
+                }
+            </div>
+            <!-- /Post content -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
 
