@@ -12,5 +12,7 @@ namespace BugTracker.Models.ViewModels
         public string Comment { get; set; }
         public string DateCreated { get; set; }
         public string User { get; set; }
+        public string UserID { get; set; }
+        public string CurrentUserID { get; set; }
     }
 }

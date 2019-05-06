@@ -15,6 +15,33 @@
             </div>
             <p>@Html.DisplayFor(modelItem => comment.Comment)</p>
         </div>
+        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+        {
+            <form method="get" action="@Url.Action("Edit", "Comment", new { id = comment.ID })" id="edit-button" class="edit-delete-btns-forms">
+                <button class="btn btn-primary admin-btns" type="submit">Edit</button>
+            </form>
+            <form method="post" action="@Url.Action("Delete", "Comment", new { id = comment.ID })" class="edit-delete-btns-forms">
+                <button class="btn btn-primary red" type="submit">X</button>
+            </form>
+        }
+        else if (User.IsInRole("Developer") && comment.UserID == comment.CurrentUserID)
+        {
+            <form method="get" action="@Url.Action("Edit", "Comment", new { id = comment.ID })" id="edit-button" class="edit-delete-btns-forms">
+                <button class="btn btn-primary admin-btns" type="submit">Edit</button>
+            </form>
+            <form method="post" action="@Url.Action("Delete", "Comment", new { id = comment.ID })" class="edit-delete-btns-forms">
+                <button class="btn btn-primary red" type="submit">X</button>
+            </form>
+        }
+        else if (User.IsInRole("Submitter") && comment.UserID == comment.CurrentUserID)
+        {
+            <form method="get" action="@Url.Action("Edit", "Comment", new { id = comment.ID })" id="edit-button" class="edit-delete-btns-forms">
+                <button class="btn btn-primary admin-btns" type="submit">Edit</button>
+            </form>
+            <form method="post" action="@Url.Action("Delete", "Comment", new { id = comment.ID })" class="edit-delete-btns-forms">
+                <button class="btn btn-primary red" type="submit">X</button>
+            </form>
+        }
     </div>
     <!-- /comment -->
     <hr/>

@@ -69,10 +69,59 @@ namespace BugTracker.Migrations
                 roleManager.Create(projectManagerRole);
             }
 
+            ApplicationUser projectManager;
+
+            if (!context.Users.Any(
+                p => p.UserName == "projectmanager@mybugtracker.com"))
+            {
+                projectManager = new ApplicationUser
+                {
+                    UserName = "projectmanager@mybugtracker.com",
+                    Email = "projectmanager@mybugtracker.com"
+                };
+
+                userManager.Create(projectManager, "Password-1");
+            }
+            else
+            {
+                projectManager = context
+                    .Users
+                    .First(p => p.UserName == "projectmanager@myBugTracker.com");
+            }
+
+            if (!userManager.IsInRole(projectManager.Id, "Project Manager"))
+            {
+                userManager.AddToRole(projectManager.Id, "Project Manager");
+            }
+
             if (!context.Roles.Any(p => p.Name == "Developer"))
             {
                 var developerRole = new IdentityRole("Developer");
                 roleManager.Create(developerRole);
+            }
+
+            ApplicationUser developer;
+
+            if (!context.Users.Any(
+                p => p.UserName == "developer@mybugtracker.com"))
+            {
+                developer = new ApplicationUser
+                {
+                    UserName = "developer@mybugtracker.com",
+                    Email = "developer@mybugtracker.com"
+                };
+
+                userManager.Create(developer, "Password-1");
+            }
+            else
+            {
+                developer = context.Users
+                    .First(p => p.UserName == "developer@myBugTracker.com");
+            }
+
+            if (!userManager.IsInRole(developer.Id, "Admin"))
+            {
+                userManager.AddToRole(developer.Id, "Admin");
             }
 
             if (!context.Roles.Any(p => p.Name == "Submitter"))
@@ -81,6 +130,30 @@ namespace BugTracker.Migrations
                 roleManager.Create(submitterRole);
             }
 
+            ApplicationUser submitter;
+
+            if (!context.Users.Any(
+                p => p.UserName == "submitter@mybugtracker.com"))
+            {
+                submitter = new ApplicationUser
+                {
+                    UserName = "submitter@mybugtracker.com",
+                    Email = "submitter@mybugtracker.com"
+                };
+
+                userManager.Create(submitter, "Password-1");
+            }
+            else
+            {
+                submitter = context
+                    .Users
+                    .First(p => p.UserName == "admin@myBugTracker.com");
+            }
+
+            if (!userManager.IsInRole(submitter.Id, "Admin"))
+            {
+                userManager.AddToRole(submitter.Id, "Admin");
+            }
 
             // Ticket Types
             if (!context.TicketTypes.Any(p => p.Name == "Bug"))

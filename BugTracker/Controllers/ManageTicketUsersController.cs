@@ -1,4 +1,6 @@
-﻿using BugTracker.Models;
+﻿using BugTracker.Helpers;
+using BugTracker.Models;
+using BugTracker.Models.Domain;
 using BugTracker.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
@@ -101,11 +103,11 @@ namespace BugTracker.Controllers
         [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult AddTicketUsers(TicketUserViewModel ticketUser)
         {
+            var applicationUserId = User.Identity.GetUserId();
             var developerRole = DbContext.Roles.FirstOrDefault(r => r.Name == "Developer").Id;
             var unassignedDeveloperUsers = DbContext.Users;
             var user = DbContext.Users.Where(u => u.Roles.Any(p => p.RoleId == developerRole))
-                .FirstOrDefault(
-                p => p.Id == ticketUser.UserID);
+                .FirstOrDefault(p => p.Id == ticketUser.UserID);
 
             var ticket = DbContext.Tickets.FirstOrDefault(
                 p => p.ID == ticketUser.ID);
@@ -114,8 +116,26 @@ namespace BugTracker.Controllers
             {
                 return RedirectToAction(nameof(ManageProjectUsersController.EditProjectUsers));
             }
+            
+            var historyWriter = new CustomHelpers();
+            historyWriter.MakeTicketHistories(ticket, user, applicationUserId);
+            var message = new IdentityMessage
+            {
+                Destination = $"{user.Email}",
+                Subject = $"You've been assigned to a new a new ticket: {ticket.Title}",
+                Body = $"new ticket--- {ticket.Title}: {ticket.Description}"
+            };
+            var emailService = new EmailService();
+            emailService.SendAsync(message);
 
             ticket.AssignedToUserID = user.Id;
+
+            var ticketNotification = new TicketNotification
+            {
+                UserID = user.Id,
+                TicketID = ticket.ID
+            };
+            DbContext.TicketNotifications.Add(ticketNotification);
 
             DbContext.SaveChanges();
             return RedirectToAction("EditTicketUsers", "ManageTicketUsers", new { id = ticketUser.ID });
@@ -125,6 +145,7 @@ namespace BugTracker.Controllers
         [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult RemoveTicketUsers(TicketUserViewModel ticketUser)
         {
+            var applicationUserId = User.Identity.GetUserId();
             var user = DbContext.Users.FirstOrDefault(
                 p => p.Id == ticketUser.UserID);
 
@@ -135,6 +156,9 @@ namespace BugTracker.Controllers
             {
                 return RedirectToAction(nameof(ManageProjectUsersController.EditProjectUsers));
             }
+
+            var historyWriter = new CustomHelpers();
+            historyWriter.MakeTicketHistories(ticket, applicationUserId);
 
             ticket.AssignedToUserID = null;
 

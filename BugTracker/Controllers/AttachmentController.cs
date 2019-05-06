@@ -22,7 +22,10 @@ namespace BugTracker.Controllers
 
         public ActionResult ShowAllAttachments()
         {
+            string currentUserID = User.Identity.GetUserId();
+
             var model = DbContext.TicketAttachments
+              .Where(a => a.Ticket.Project.Archived == false)
               .Select(p => new IndexAttachmentViewModel
               {
                   ID = p.ID,
@@ -31,7 +34,9 @@ namespace BugTracker.Controllers
                   Description = p.Description,
                   Created = p.Created.ToString(),
                   User = p.User.UserName,
-                  FileUrl = p.FileUrl
+                  UserID = p.User.Id,
+                  FileUrl = p.FileUrl,
+                  CurrentUserID = currentUserID
               }).ToList();
 
 
@@ -40,8 +45,11 @@ namespace BugTracker.Controllers
 
         public ActionResult ShowTicketAttachments(int Id)
         {
+            string currentUserID = User.Identity.GetUserId();
+
             var model = DbContext.TicketAttachments
-              .Where(a => a.TicketID == Id)
+              .Where(a => a.TicketID == Id
+              && a.Ticket.Project.Archived == false)
               .Select(p => new IndexAttachmentViewModel
               {
                   ID = p.ID,
@@ -50,7 +58,9 @@ namespace BugTracker.Controllers
                   Description = p.Description,
                   Created = p.Created.ToString(),
                   User = p.User.UserName,
-                  FileUrl = p.FileUrl
+                  UserID = p.User.Id,
+                  FileUrl = p.FileUrl,
+                  CurrentUserID = currentUserID
               }).ToList();
 
 
@@ -128,7 +138,60 @@ namespace BugTracker.Controllers
                 DbContext.TicketAttachments.Add(attachment);
             }
 
+            var notifyUsers = DbContext.TicketNotifications.Where(u => u.TicketID == ticket.ID).ToList();
+            foreach (var notifyuser in notifyUsers)
+            {
+                var user = DbContext.Users.FirstOrDefault(u => u.Id == notifyuser.UserID);
+                string alert = $"new attachment on a ticket you are watching: {ticket.Title}";
+                if (user == ticket.AssignedToUser)
+                {
+                    alert = $"new attachment on a ticket assigned to you: {ticket.Title}";
+                }
+                var message = new IdentityMessage
+                {
+                    Destination = $"{user.Email}",
+                    Subject = $"{alert}",
+                    Body = $"{alert}"
+                };
+                var emailService = new EmailService();
+                emailService.SendAsync(message);
+            }
+
             DbContext.SaveChanges();
+            return RedirectToAction("FullTicketBySlug", "Ticket", new { slug = ticket.Slug });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Delete(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return RedirectToAction(nameof(ProjectController.Index));
+            }
+
+            string currentUserID = User.Identity.GetUserId();
+            var attachment = DbContext.TicketAttachments.FirstOrDefault(p => p.ID == id);
+            var ticket = DbContext.Tickets.FirstOrDefault(t => t.ID == attachment.TicketID);
+
+            if ((User.IsInRole("Admin") || User.IsInRole("Project Manager")) 
+                || (User.IsInRole("Developer") && currentUserID == attachment.UserID) 
+                || (User.IsInRole("Submitter") && currentUserID == attachment.UserID))
+            {
+                // continue
+            }
+            else
+            {
+                return RedirectToAction("FullTicketBySlug", "Ticket", new { slug = ticket.Slug });
+            }
+
+
+            if (attachment != null)
+            {
+                DbContext.TicketAttachments.Remove(attachment);
+                DbContext.SaveChanges();
+            }
+
             return RedirectToAction("FullTicketBySlug", "Ticket", new { slug = ticket.Slug });
         }
     }

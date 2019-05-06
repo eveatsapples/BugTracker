@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "DemoLogin";
+}
+
+<h2>Demo Logins:</h2>
+
+@using (Html.BeginForm("Login", "Account", new { UserName = "admin@mybugtracker.com", Password = "Password-1", ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Admin" class="btn btn-default login-btn" />
+        </div>
+    </div>
+}
+@using (Html.BeginForm("Login", "Account", new { UserName = "projectmanager@mybugtracker.com", Password = "Password-1", ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Project Manager" class="btn btn-default login-btn" />
+        </div>
+    </div>
+}
+@using (Html.BeginForm("Login", "Account", new { UserName = "developer@mybugtracker.com", Password = "Password-1", ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Developer" class="btn btn-default login-btn" />
+        </div>
+    </div>
+}
+@using (Html.BeginForm("Login", "Account", new { UserName = "submitter@mybugtracker.com", Password = "Password-1", ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Submitter" class="btn btn-default login-btn" />
+        </div>
+    </div>
+}
+

@@ -13,6 +13,8 @@ namespace BugTracker.Models.ViewModels
         public string Description { get; set; }
         public string Created { get; set; }
         public string User { get; set; }
+        public string UserID { get; set; }
+        public string CurrentUserID { get; set; }
         public string FileUrl { get; set; }
     }
 }

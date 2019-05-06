@@ -24,10 +24,10 @@ namespace BugTracker
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return configSendGridasyncAsync(message);
+            return ConfigSendGridasyncAsync(message);
         }
 
-        private async Task configSendGridasyncAsync(IdentityMessage message)
+        private async Task ConfigSendGridasyncAsync(IdentityMessage message)
         {
             var apiKey = Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
             var client = new SendGridClient(apiKey);

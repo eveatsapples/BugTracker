@@ -1,0 +1,63 @@
+﻿@model NumberOfTicketsWidget
+
+
+<div class="col-sm-6 col-lg-3">
+    <div class="overview-item overview-item--c4">
+        <div class="overview__inner">
+            <div class="overview-box clearfix">
+                <div class="icon">
+                    <i class="zmdi zmdi-calendar-note"></i>
+                </div>
+                <div class="text">
+                    <h2>@Model.Number</h2>
+                    <span>Total Tickets</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6 col-lg-3">
+    <div class="overview-item overview-item--c2">
+        <div class="overview__inner">
+            <div class="overview-box clearfix">
+                <div class="icon">
+                    <i class="zmdi zmdi-calendar-note"></i>
+                </div>
+                <div class="text">
+                    <h2>@Model.Open</h2>
+                    <span>Total Open Tickets</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6 col-lg-3">
+    <div class="overview-item overview-item--c2">
+        <div class="overview__inner">
+            <div class="overview-box clearfix">
+                <div class="icon">
+                    <i class="zmdi zmdi-calendar-note"></i>
+                </div>
+                <div class="text">
+                    <h2>@Model.Resolved</h2>
+                    <span>Total Resolved Tickets</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6 col-lg-3">
+    <div class="overview-item overview-item--c2">
+        <div class="overview__inner">
+            <div class="overview-box clearfix">
+                <div class="icon">
+                    <i class="zmdi zmdi-calendar-note"></i>
+                </div>
+                <div class="text">
+                    <h2>@Model.Rejected</h2>
+                    <span>Total Rejected Tickets</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

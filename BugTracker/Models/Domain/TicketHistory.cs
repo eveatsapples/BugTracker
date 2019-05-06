@@ -11,11 +11,12 @@ namespace BugTracker.Models
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        public string TicketID { get; set; }
+        public int TicketID { get; set; }
         public string Property { get; set; }
         public string OldValue { get; set; }
         public string NewValue { get; set; }
         public DateTime Changed { get; set; }
         public string UserID { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

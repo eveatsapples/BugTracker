@@ -26,6 +26,7 @@ namespace BugTracker.Controllers
         public ActionResult Index()
         {
             var model = DbContext.Projects
+              .Where(a => a.Archived == false)
               .Select(p => new IndexProjectsViewModel
               {
                   Slug = p.Slug,
@@ -208,7 +209,7 @@ namespace BugTracker.Controllers
 
             if (post != null)
             {
-                DbContext.Projects.Remove(post);
+                post.Archived = true;
                 DbContext.SaveChanges();
             }
 

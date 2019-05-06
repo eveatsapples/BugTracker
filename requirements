@@ -72,3 +72,36 @@ $ Projects
 $ Once you design tickets remember to go back to the project screen and fix the ticket count on the grid.
 
 admin should also be a submitter on seed
+
+Deliverables #3
+Project
+Bug Tracker
+Requirements
+$ Ticket Histories
+$ A history must be generated for each property change made to a ticket ($Project, $Title, $Description, $Type, $Status, $Priority and $Assigned Developer). 
+$ The history doesn’t need to be generated for Comments and Attachments. 
+$ The history should be displayed in the ticket’s details page and should include who made the change and what was changed (old value and new value).
+□ Ticket Notifications 
+$ Developers must be notified by e-mail each time they are assigned to a ticket.
+$ Developers must be notified by e-mail each time a ticket to which they are assigned is modified by another $user, including the addition of $comments and $attachments.
+$ Admins and Project Managers can opt-in and opt-out to receive notifications by e-mail each time a ticket is modified, including the addition of comments and attachments. The application should allow the user to specify what tickets they would like to receive/cancel notifications from.
+$ A dashboard page should be created to summarizing the user’s status in the system.
+$    Admins and Project Managers should see the number of projects and the number of tickets broken down by status (Open, Resolved and Closed).
+$    Developers should see the number of projects which they are assigned and the number of tickets which they are assigned.
+$    Submitters should see the number of projects which they are assigned and the number of tickets they have created.
+$ Ticket Comments
+$ Admins and Project Managers must be able to edit/delete any comment from any ticket.
+$ Developers and Submitters must be able to edit/delete only their own comments.
+        $   Ticket Attachments 
+$ Admins and Project Managers must be able to delete any attachment from any ticket.
+$ Developers and Submitters must be able to delete only their own attachments.
+
+     
+
+$ Admins and Project Managers should be able to archive projects. Information from archived projects won’t show anywhere in the system.
+    $ A Landing page should be created with demo logins for each role.
+
+      
+Due Date
+Monday, May 6th, 2019 at 8:45am
+

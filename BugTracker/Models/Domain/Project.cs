@@ -16,5 +16,6 @@ namespace BugTracker.Models.Domain
         public DateTime? DateUpdated { get; set; }
         public virtual ICollection<ApplicationUser> ProjectUsers { get; set; }
         public virtual List<Ticket> Tickets { get; set; }
+        public bool Archived { get; set; }
     }
 }

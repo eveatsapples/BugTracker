@@ -1,0 +1,41 @@
+﻿@model List<TicketHistoryViewModel>
+
+<h2>Histories:</h2>
+
+<table class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Changed By
+            </th>
+            <th>
+                Property
+            </th>
+            <th>
+                Old Value
+            </th>
+            <th>
+                NewValue
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.User
+                </td>
+                <td>
+                    @item.Property
+                </td>
+                <td>
+                    @item.OldValue
+                </td>
+                <td>
+                    @item.NewValue
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

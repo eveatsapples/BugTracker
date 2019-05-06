@@ -27,7 +27,8 @@ namespace BugTracker.Controllers
             var userId = User.Identity.GetUserId();
 
             var model = DbContext.Projects
-              .Where(p => p.ProjectUsers.Any(i => i.Id == userId))
+              .Where((p => p.ProjectUsers.Any(i => i.Id == userId)
+              && p.Archived == false))
               .Select(p => new IndexProjectsViewModel
               {
                   Slug = p.Slug,
@@ -41,6 +42,29 @@ namespace BugTracker.Controllers
               }).ToList();
 
             return View(model);
+        }
+
+        [Authorize]
+        public ActionResult IndexPartial()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var model = DbContext.Projects
+              .Where((p => p.ProjectUsers.Any(i => i.Id == userId)
+              && p.Archived == false))
+              .Select(p => new IndexProjectsViewModel
+              {
+                  Slug = p.Slug,
+                  ID = p.ID,
+                  ProjectName = p.ProjectName,
+                  Description = p.Description,
+                  DateCreated = p.DateCreated.ToString(),
+                  DateUpdated = p.DateUpdated.ToString(),
+                  ProjectUsers = p.ProjectUsers.Count(),
+                  Tickets = DbContext.Tickets.Where(t => t.ProjectID == p.ID).Count()
+              }).ToList();
+
+            return PartialView("Index", model);
         }
     }
 }

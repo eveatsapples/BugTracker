@@ -22,5 +22,6 @@ namespace BugTracker.Models.ViewModels
         public string OwnerUserID { get; set; }
         public string AssignedToUser { get; set; }
         public string AssignedToUserID { get; set; }
+        public bool Watching { get; set; }
     }
 }

@@ -1,82 +1,312 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+    <!-- Title Page-->
+    <title>Dashboard</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="~/css/font-face.css" rel="stylesheet" media="all">
+    <link href="~/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link href="~/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- data tables -->
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Styles.Render("https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css")
     @Scripts.Render("https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
     <script type="text/javascript">
-        $(document).ready( function () {
+        $(document).ready(function () {
             $('.display').DataTable();
-            });
+        });
+
     </script>
-    @Styles.Render("~/Content/sidebarNavigation")
-    @Scripts.Render("~/bundles/sidebarNavigation")
 
+    <!-- Vendor CSS-->
+    <link href="~/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="~/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="~/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
+    <!-- Main CSS-->
+    <link href="~/css/theme.css" rel="stylesheet" media="all">
 
 </head>
-<body>
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        @Html.ActionLink("My Projects", "Index", "MyProjects")
-        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-        {
-            <span>@Html.ActionLink("All Projects", "Index", "Project")</span>
-            <span>@Html.ActionLink("All Tickets", "ShowAll", "Ticket")</span>
-        }
-        @if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
-        {
-            <span>@Html.ActionLink("All My Projects Tickets", "ShowAllMyProjectsTickets", "Ticket")</span>
-        }
-        @if (User.IsInRole("Developer"))
-        {
-            <span>@Html.ActionLink("Tickets Assigned To Me", "ShowAssignedTickets", "Ticket")</span>
-        }
-        @if (User.IsInRole("Submitter") )
-        {
-            <span>@Html.ActionLink("Tickets I Made", "TicketsIMade", "Ticket")</span>
-        }
-        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-        {
-            <span>@Html.ActionLink("Manage User Roles", "Index", "ManageUserRoles")</span>
-        }
-    </div>
 
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a onclick="openNav()" class="navbar-brand pointer-cursor"> &#9776; Menu </a>
+<body class="animsition">
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        <header class="header-mobile d-block d-lg-none">
+            <div class="header-mobile__bar">
+                <div class="container-fluid">
+                    <div class="header-mobile-inner">
+                        <img src="~/images/icon/logo.png" alt="CoolAdmin" />
+                        <button class="hamburger hamburger--slider" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("My Projects", "Index", "MyProjects")</li>*@
-                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                    {
-                    }
-                </ul>
-                @Html.Partial("_LoginPartial")
+            <nav class="navbar-mobile">
+                <div class="container-fluid">
+                    <ul class="navbar-mobile__list list-unstyled">
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-tachometer-alt"></i>Dashboard
+                            </a>
+                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                <li>
+                                    <a href="index.html">Dashboard 1</a>
+                                </li>
+                                <li>
+                                    <a href="index2.html">Dashboard 2</a>
+                                </li>
+                                <li>
+                                    <a href="index3.html">Dashboard 3</a>
+                                </li>
+                                <li>
+                                    <a href="index4.html">Dashboard 4</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="chart.html">
+                                <i class="fas fa-chart-bar"></i>Charts
+                            </a>
+                        </li>
+                        <li>
+                            <a href="table.html">
+                                <i class="fas fa-table"></i>Tables
+                            </a>
+                        </li>
+                        <li>
+                            <a href="form.html">
+                                <i class="far fa-check-square"></i>Forms
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-calendar-alt"></i>Calendar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="map.html">
+                                <i class="fas fa-map-marker-alt"></i>Maps
+                            </a>
+                        </li>
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-copy"></i>Pages
+                            </a>
+                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                <li>
+                                    <a href="login.html">Login</a>
+                                </li>
+                                <li>
+                                    <a href="register.html">Register</a>
+                                </li>
+                                <li>
+                                    <a href="forget-pass.html">Forget Password</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-desktop"></i>UI Elements
+                            </a>
+                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                <li>
+                                    <a href="button.html">Button</a>
+                                </li>
+                                <li>
+                                    <a href="badge.html">Badges</a>
+                                </li>
+                                <li>
+                                    <a href="tab.html">Tabs</a>
+                                </li>
+                                <li>
+                                    <a href="card.html">Cards</a>
+                                </li>
+                                <li>
+                                    <a href="alert.html">Alerts</a>
+                                </li>
+                                <li>
+                                    <a href="progress-bar.html">Progress Bars</a>
+                                </li>
+                                <li>
+                                    <a href="modal.html">Modals</a>
+                                </li>
+                                <li>
+                                    <a href="switch.html">Switchs</a>
+                                </li>
+                                <li>
+                                    <a href="grid.html">Grids</a>
+                                </li>
+                                <li>
+                                    <a href="fontawesome.html">Fontawesome Icon</a>
+                                </li>
+                                <li>
+                                    <a href="typo.html">Typography</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- END HEADER MOBILE-->
+        <!-- MENU SIDEBAR-->
+        <aside class="menu-sidebar d-none d-lg-block">
+            <div class="logo">
+                <img src="~/images/icon/logo.png" alt="Cool Admin" />
+            </div>
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        <li>@Html.ActionLink("Dashboard", "Index", "Home")</li>
+                        <li>@Html.ActionLink("All My Projects", "Index", "MyProjects")</li>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                        {
+                            <li>@Html.ActionLink("All Projects", "Index", "Project")</li>
+                            <li>@Html.ActionLink("All Tickets", "ShowAll", "Ticket")</li>
+                        }
+                        @if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
+                        {
+                            <li>@Html.ActionLink("All My Projects Tickets", "ShowAllMyProjectsTickets", "Ticket")</li>
+                        }
+                        @if (User.IsInRole("Developer"))
+                        {
+                            <li>@Html.ActionLink("Tickets Assigned To Me", "ShowAssignedTickets", "Ticket")</li>
+                        }
+                        @if (User.IsInRole("Submitter"))
+                        {
+                            <li>@Html.ActionLink("Tickets I Made", "TicketsIMade", "Ticket")</li>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                        {
+                            <li>@Html.ActionLink("Manage User Roles", "Index", "ManageUserRoles")</li>
+                        }
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                Account
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>@Html.Partial("_LoginPartial")</li>
+                                <li>@Html.ActionLink("Manage Account", "Index", "Manage")</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!-- END MENU SIDEBAR-->
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+            <header class="header-desktop">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="header-wrap">
+                            <form class="form-header" action="" method="POST">
+                                <input class="au-input au-input--xl" type="text" name="search" placeholder="Search for datas &amp; reports..." />
+                                <button class="au-btn--submit" type="submit">
+                                    <i class="zmdi zmdi-search"></i>
+                                </button>
+                            </form>
+                            <div class="header-button">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <div class="account-wrap">
+                                        <div class="account-item clearfix js-item-menu">
+                                            <div class="content">
+                                                <a class="js-acc-btn" href="#">@User.Identity.Name</a>
+                                            </div>
+                                            <div class="account-dropdown js-dropdown">
+                                                <div class="info clearfix">
+                                                    <div class="content">
+                                                        <h5 class="name">
+                                                            <a href="#">@User.Identity.Name</a>
+                                                        </h5>
+                                                        <span class="email"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="account-dropdown__footer">
+                                                    <ul>
+                                                        <li>@Html.Partial("_LoginPartial")</li>
+                                                        @*<i class="zmdi zmdi-power"></i>Logout*@
+                                                        <li>@Html.ActionLink("Manage Account", "Index", "Manage")</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    @Html.Partial("_LoginPartial")
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- HEADER DESKTOP-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        @RenderBody()
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="copyright">
+                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer></footer>
-    </div>
+    <!-- Jquery JS-->
+    @*<script src="~/vendor/jquery-3.2.1.min.js"></script>*@
+    <!-- Bootstrap JS-->
+    <script src="~/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="~/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="~/vendor/slick/slick.min.js"></script>
+    <script src="~/vendor/wow/wow.min.js"></script>
+    <script src="~/vendor/animsition/animsition.min.js"></script>
+    <script src="~/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="~/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="~/vendor/counter-up/jquery.counterup.min.js"></script>
+    <script src="~/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="~/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="~/vendor/select2/select2.min.js"></script>
 
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <!-- Main JS-->
+    <script src="~/js/main.js"></script>
+
 </body>
+
 </html>
+<!-- end document-->
+

@@ -1,7 +1,4 @@
 ﻿@model FullTicketViewModel
-@{
-    ViewBag.Title = "FullTicket";
-}
 
 <!-- section -->
 <div class="section">
@@ -15,7 +12,24 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="section-title">
-                                <h3>@Model.Title</h3>
+                                @if ((User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                    && Model.UserID != Model.AssignedToUserID)
+                                {
+                                    if (Model.Watching == false)
+                                    {
+
+                                        <form method="post" action="@Url.Action("Watch", "TicketNotification", new { id = Model.ID })" class="edit-delete-btns-forms">
+                                            <button class="btn btn-primary" type="submit">Watch</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form method="post" action="@Url.Action("UnWatch", "TicketNotification", new { id = Model.ID })" class="edit-delete-btns-forms">
+                                            <button class="btn btn-primary red" type="submit">UnWatch</button>
+                                        </form>
+                                    }
+                                }
+                                <h1>@Model.Title</h1>
                                 <span>Created: @Model.DateCreated</span>
                                 @if (Model.DateUpdated != null)
                                 {
@@ -75,6 +89,7 @@
                         </a>
                     </p>
                 }
+                @Html.Action("Show", "History", new { id = Model.ID })
             </div>
             <!-- /Post content -->
         </div>

@@ -19,6 +19,24 @@
             <p>@Html.DisplayFor(modelItem => attachment.Description)</p>
         </div>
         <p>@Html.DisplayFor(modelItem => attachment.FilePath)</p>
+        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+        {
+            <form method="post" action="@Url.Action("Delete", "Attachment", new { id = attachment.ID })" class="edit-delete-btns-forms">
+                <button class="btn btn-primary red" type="submit">X</button>
+            </form>
+        }
+        else if (User.IsInRole("Developer") && attachment.UserID == attachment.CurrentUserID)
+        {
+            <form method="post" action="@Url.Action("Delete", "Attachment", new { id = attachment.ID })" class="edit-delete-btns-forms">
+                <button class="btn btn-primary red" type="submit">X</button>
+            </form>
+        }
+        else if (User.IsInRole("Submitter") && attachment.UserID == attachment.CurrentUserID)
+        {
+            <form method="post" action="@Url.Action("Delete", "Attachment", new { id = attachment.ID })" class="edit-delete-btns-forms">
+                <button class="btn btn-primary red" type="submit">X</button>
+            </form>
+        }
     </div>
     <!-- /comment -->
     <hr/>

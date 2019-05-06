@@ -9,6 +9,7 @@ using BugTracker.Models;
 using BugTracker.Models.Domain;
 using BugTracker.Models.ViewModels;
 using AutoMapper.QueryableExtensions;
+using BugTracker.Helpers;
 
 namespace BugTracker.Controllers
 {
@@ -27,6 +28,7 @@ namespace BugTracker.Controllers
 
             string currentUserID = User.Identity.GetUserId();
             var model = DbContext.Tickets
+              .Where(t => t.Project.Archived == false)
               .Select(p => new ShowTicketViewModel
               {
                   Slug = p.Slug,
@@ -55,7 +57,8 @@ namespace BugTracker.Controllers
         {
             string currentUserID = User.Identity.GetUserId();
             var project = DbContext.Projects
-                .Where(p => p.ID == id)
+                .Where(p => p.ID == id
+                && p.Archived == false)
                 .FirstOrDefault();
 
             var model = DbContext.Tickets
@@ -87,7 +90,9 @@ namespace BugTracker.Controllers
         {
             var userId = User.Identity.GetUserId();
             var user = DbContext.Users.FirstOrDefault(u => u.Id == userId);
-            var projectIDs = user.Projects.Select(p => p.ID).ToList();
+            var projectIDs = user.Projects
+                .Where(p => p.Archived == false)
+                .Select(p => p.ID).ToList();
 
             var model = DbContext.Tickets
               .Where(t => projectIDs.Contains(t.ProjectID))
@@ -122,7 +127,8 @@ namespace BugTracker.Controllers
             var projectIDs = user.Projects.Select(p => p.ID).ToList();
 
             var model = DbContext.Tickets
-              .Where(t => t.AssignedToUserID == userId)
+              .Where(t => t.AssignedToUserID == userId
+              && t.Project.Archived == false)
               .Select(p => new ShowTicketViewModel
               {
                   Slug = p.Slug,
@@ -154,7 +160,8 @@ namespace BugTracker.Controllers
             var projectIDs = user.Projects.Select(p => p.ID).ToList();
 
             var model = DbContext.Tickets
-              .Where(t => t.OwnerUserID == userId)
+              .Where(t => t.OwnerUserID == userId
+              && t.Project.Archived == false)
               .Select(p => new ShowTicketViewModel
               {
                   Slug = p.Slug,
@@ -372,7 +379,6 @@ namespace BugTracker.Controllers
             }
             else
             {
-                
                 ticket = DbContext.Tickets.FirstOrDefault(
                     p => p.ID == id);
 
@@ -387,13 +393,34 @@ namespace BugTracker.Controllers
                     return RedirectToAction("FullProjectBySlug", "Project", new { slug = project.Slug });
                 }
 
-
                 if (ticket == null)
                 {
                     return RedirectToAction(nameof(ProjectController.Index));
                 }
 
                 ticket.DateUpdated = DateTime.Now;
+
+                var historyWriter = new CustomHelpers();
+                historyWriter.MakeTicketHistories(ticket, formData, userId);
+
+                var notifyUsers = DbContext.TicketNotifications.Where(u => u.TicketID == ticket.ID).ToList();
+                foreach (var notifyuser in notifyUsers)
+                {
+                    var user = DbContext.Users.FirstOrDefault(u => u.Id == notifyuser.UserID);
+                    string alert = $"there has been a change to a ticket you are watching: {ticket.Title}";
+                    if (user == ticket.AssignedToUser)
+                    {
+                        alert = $"there has been a change to a ticket assign to you: {ticket.Title}";
+                    }
+                    var message = new IdentityMessage
+                    {
+                        Destination = $"{user.Email}",
+                        Subject = $"{alert}",
+                        Body = $"{alert}"
+                    };
+                    var emailService = new EmailService();
+                    emailService.SendAsync(message);
+                }
             }
 
             ticket.Title = formData.Title;
@@ -426,6 +453,7 @@ namespace BugTracker.Controllers
                 return RedirectToAction(nameof(ProjectController.Index));
             }
 
+            var isUserWatching = DbContext.TicketNotifications.FirstOrDefault(u => u.TicketID == ticket.ID && u.UserID == userId);
             var model = new FullTicketViewModel
             {
                 ID = ticket.ID,
@@ -447,12 +475,16 @@ namespace BugTracker.Controllers
                 model.AssignedToUser = ticket.AssignedToUser.UserName;
                 model.AssignedToUserID = ticket.AssignedToUserID;
             }
+            if (isUserWatching != null)
+            {
+                model.Watching = true;
+            }
 
             return View("FullTicket", model);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Submitter")]
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (!id.HasValue)

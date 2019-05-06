@@ -12,6 +12,8 @@ namespace BugTracker.Models.Domain
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public int TicketID { get; set; }
-        public int UserID { get; set; }
+        public virtual Ticket Ticket { get; set; }
+        public string UserID { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

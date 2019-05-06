@@ -1,11 +1,16 @@
 ﻿@model List<IndexProjectsViewModel>
+<span>
+    <h2>My Projects:</h2>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>My Projects</h2>
-
+    <p>
+        @if (User.IsInRole("Submitter"))
+        {
+            <a id='registerLink' href='@Url.Action("Create","Project")'>
+                <button class="btn btn-primary">Create New Project</button>
+            </a>
+        }
+    </p>
+</span>
 <table class="display" style="width:100%">
     <thead>
         <tr>
@@ -27,64 +32,77 @@
             <th>
                 Contributers
             </th>
-            <th></th>
+            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+            {
+                <th></th>
+            }
         </tr>
     </thead>
-
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                <h5 class="post-title"><a href="@Url.Action("FullProjectBySlug", "Project", new { slug = item.Slug })">@item.ProjectName</a></h5>
-            </td>
-            <td>
-                @if (item.Description.Count() > 50)
-                {
-                    <p>@Html.Raw(item.Description.Substring(0, 24))...</p>
-                }
-                else
-                {
-                    <p>@Html.Raw(item.Description)</p>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateCreated)
-            </td>
-            <td>
-                @if (item.DateUpdated != "")
-                {
-                    <p>@Html.DisplayFor(modelItem => item.DateUpdated)</p>
-                }
-                else
-                {
-                    <p>-</p>
-                }
-            </td>
-            <td>
-                @item.Tickets
-            </td>
-            <td>
-                <p class="project-users-number">@Html.DisplayFor(modelItem => item.ProjectUsers)</p>
+            <tr>
+                <td>
+                    <h5 class="post-title"><a href="@Url.Action("FullProjectBySlug", "Project", new { slug = item.Slug })">
+                        @if (item.ProjectName.Count() > 24)
+                        {
+                            <p>@Html.Raw(item.ProjectName.Substring(0, 24))...</p>
+                        }
+                        else
+                        {
+                            <p>@Html.Raw(item.ProjectName)</p>
+                        }
+                    </a></h5>
+                </td>
+                <td>
+                    @if (item.Description.Count() > 24)
+                    {
+                        <p>@Html.Raw(item.Description.Substring(0, 24))...</p>
+                    }
+                    else
+                    {
+                        <p>@Html.Raw(item.Description)</p>
+                    }
+                </td>
+                <td>
+                    <p>@Html.DisplayFor(modelItem => item.DateCreated)</p>
+                </td>
+                <td>
+                    @if (item.DateUpdated != "")
+                    {
+                        <p>@Html.DisplayFor(modelItem => item.DateUpdated)</p>
+                    }
+                    else
+                    {
+                        <p>-</p>
+                    }
+                </td>
+                <td>
+                    @item.Tickets
+                </td>
+                <td>
+                    <p class="project-users-number">@Html.DisplayFor(modelItem => item.ProjectUsers)</p>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                    {
+                        <form method="get" action="@Url.Action("EditProjectUsers", "ManageProjectUsers", new { id = item.ID })" id="edit-button" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns" type="submit">Manage</button>
+                        </form>
+                    }
+                </td>
                 @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
                 {
-                    <form method="get" action="@Url.Action("EditProjectUsers", "ManageProjectUsers", new { id = item.ID })" id="edit-button" class="edit-delete-btns-forms">
-                        <button class="btn btn-primary admin-btns" type="submit">Manage</button>
-                    </form>
+                    <td>
+                        <form method="get" action="@Url.Action("Edit", "Project", new { id = item.ID })" id="edit-button" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary admin-btns" type="submit">Edit</button>
+                        </form>
+                        <form method="post" action="@Url.Action("Delete", "Project", new { id = item.ID })" class="edit-delete-btns-forms">
+                            <button class="btn btn-primary red" type="submit">X</button>
+                        </form>
+                    </td>
                 }
-            </td>
-            <td>
-                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                {
-                    <form method="get" action="@Url.Action("Edit", "Project", new { id = item.ID })" id="edit-button" class="edit-delete-btns-forms">
-                        <button class="btn btn-primary admin-btns" type="submit">Edit</button>
-                    </form>
-                    <form method="post" action="@Url.Action("Delete", "Project", new { id = item.ID })" class="edit-delete-btns-forms">
-                        <button class="btn btn-primary red" type="submit">X</button>
-                    </form>
-                }
-            </td>
-        </tr>
+            </tr>
         }
     </tbody>
+
 </table>
+
